@@ -34,7 +34,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release: 5%{?extra_version:.%{extra_version}}%{?dist}.6
+Release: 5.9%{?extra_version:.%{extra_version}}%{?dist}
 License: BSD
 Url: https://www.unbound.net/
 Source: https://www.unbound.net/downloads/%{name}-%{version}%{?extra_version}.tar.gz
@@ -65,6 +65,17 @@ Patch2:   unbound-1.15-source-compat.patch
 Patch3:   unbound-1.16-CVE-2022-3204.patch
 # https://nlnetlabs.nl/downloads/unbound/patch_CVE-2023-50387_CVE-2023-50868.diff
 Patch4: unbound-1.16-CVE-2023-50387-CVE-2023-50868.patch
+# https://github.com/NLnetLabs/unbound/commit/b7c61d7cc256d6a174e6179622c7fa968272c259
+Patch5: unbound-1.21-CVE-2024-8508.patch
+# The patch for CVE-2025-5994 requires certain changes fixing bugs in subnet module
+# that is why we have to backport these commits. They have their respective tests
+# backported with them.
+# https://github.com/NLnetLabs/unbound/commit/0f08cc6d5577ad4747749c55229e16df8711ee32
+# https://github.com/NLnetLabs/unbound/commit/6d0812b56731af130e8bc7e1572388934beb9b3b
+# https://github.com/NLnetLabs/unbound/commit/be626f7c5330dc414a582a04b537ea79d5c452fb
+# https://github.com/NLnetLabs/unbound/commit/5bf82f246481098a6473f296b21fc1229d276c0f
+# https://github.com/NLnetLabs/unbound/commit/a1150078f29e14b36c8e4d9d05a263a5e6abbc5b
+Patch6: unbound-1.23.1-CVE-2025-5994.patch
 
 BuildRequires: gdb
 BuildRequires: gcc, make
@@ -168,6 +179,8 @@ pushd %{pkgname}
 %patch2 -p1 -b .srccompat
 %patch3 -p2 -b .CVE-2022-3204
 %patch4 -p2 -b .CVE-2023-50387-CVE-2023-50868
+%patch5 -p2 -b .CVE-2024-8508
+%patch6 -p2 -b .CVE-2025-5994
 
 
 # copy common doc files - after here, since it may be patched
@@ -435,27 +448,27 @@ popd
 %verify(not md5 size mtime) %{_sharedstatedir}/%{name}/root.key
 
 %changelog
-* Wed Apr 03 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.6
-- Rebuilt again with z-stream target
+* Thu Jul 24 2025 Tomas Korbar <tkorbar@redhat.com> - 1.16.2-5.9
+- Fix RebirthDay Attack (CVE-2025-5994)
+- Resolves: RHEL-104123
 
-* Wed Apr 03 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.5
-- Correct typo in new config file
+* Tue Nov 12 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.8
+- Prevent unbounded name compression (CVE-2024-8508)
 
-* Mon Mar 11 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.4
+* Tue May 28 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.7
+- Rebuild to propagate to CentOS Stream (RHEL-25500)
+
+* Mon Mar 11 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.6
 - Ensure group access correction reaches also updated configs (CVE-2024-1488)
 
 * Wed Feb 28 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-5.3
 - Ensure only unbound group can change configuration (CVE-2024-1488)
 
-* Mon Feb 19 2024 Tomas Korbar <tkorbar@redhat.com> - 1.16.2-5.2
-- Fix wrong entry in changelog
-- Resolves: RHEL-25634
-
 * Fri Feb 16 2024 Tomas Korbar <tkorbar@redhat.com> - 1.16.2-5.1
 - Fix KeyTrap - Extreme CPU consumption in DNSSEC validator CVE-2023-50387
 - Fix Preparing an NSEC3 closest encloser proof can exhaust CPU resources CVE-2023-50868
-- Resolves: RHEL-25660
-- Resolves: RHEL-25634
+- Resolves: RHEL-25428
+- Resolves: RHEL-25423
 
 * Sat Oct 15 2022 Petr Menšík <pemensik@redhat.com> - 1.16.2-5
 - Stop creating wrong devel manual pages (#2135322)
