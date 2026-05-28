@@ -30,7 +30,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release: 3%{?extra_version:.%{extra_version}}%{?dist}.5
+Release:        3%{?extra_version:.%{extra_version}}.1%{?dist}.5
 License: BSD
 Url: https://nlnetlabs.nl/projects/unbound/
 Source: https://nlnetlabs.nl/downloads/%{name}/%{name}-%{version}%{?extra_version}.tar.gz
@@ -58,6 +58,34 @@ Source21: remote-control.conf
 Patch1: unbound-1.16-CVE-2022-3204.patch
 # https://nlnetlabs.nl/downloads/unbound/patch_CVE-2023-50387_CVE-2023-50868.diff
 Patch2: unbound-1.16-CVE-2023-50387-CVE-2023-50868.patch
+# CVE-2024-8508 — upstream backport
+Patch3: unbound-1.16.2-cve-2024-8508.patch
+# CVE-2025-5994 — upstream backport
+Patch4: unbound-1.16.2-cve-2025-5994.patch
+# CVE-2024-43167 — upstream backport
+Patch5: unbound-1.16.2-cve-2024-43167.patch
+# CVE-2024-43168 — upstream backport
+Patch6: unbound-1.16.2-cve-2024-43168.patch
+# CVE-2026-42959 — upstream backport
+Patch7: unbound-1.16.2-cve-2026-42959.patch
+# CVE-2026-42944 — upstream backport
+Patch8: unbound-1.16.2-cve-2026-42944.patch
+# CVE-2026-32792 — upstream backport
+Patch9: unbound-1.16.2-cve-2026-32792.patch
+# CVE-2026-40622 — upstream backport
+Patch10: unbound-1.16.2-cve-2026-40622.patch
+# CVE-2026-41292 — upstream backport
+Patch11: unbound-1.16.2-cve-2026-41292.patch
+# CVE-2026-42534 — upstream backport
+Patch12: unbound-1.16.2-cve-2026-42534.patch
+# CVE-2026-42923 — upstream backport
+Patch13: unbound-1.16.2-cve-2026-42923.patch
+# CVE-2026-42960 — upstream backport
+Patch14: unbound-1.16.2-cve-2026-42960.patch
+# CVE-2026-44390 — upstream backport
+Patch15: unbound-1.16.2-cve-2026-44390.patch
+# CVE-2026-44608 — upstream backport
+Patch16: unbound-1.16.2-cve-2026-44608.patch
 
 BuildRequires: gcc, make
 BuildRequires: flex, openssl-devel
@@ -453,6 +481,22 @@ popd
 %attr(0644,root,root) %config %{_sysconfdir}/%{name}/root.key
 
 %changelog
+* Wed May 20 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-3.1
+- Fix CVE-2024-8508
+- Fix CVE-2025-5994
+- Fix CVE-2024-43167
+- Fix CVE-2024-43168
+- Fix CVE-2026-42959
+- Fix CVE-2026-42944
+- Fix CVE-2026-32792
+- Fix CVE-2026-40622
+- Fix CVE-2026-41292
+- Fix CVE-2026-42534
+- Fix CVE-2026-42923
+- Fix CVE-2026-42960
+- Fix CVE-2026-44390
+- Fix CVE-2026-44608
+
 * Wed Apr 03 2024 Petr Menšík <pemensik@redhat.com> - 1.16.2-3.5
 - Rebuilt again with z-stream target
 
