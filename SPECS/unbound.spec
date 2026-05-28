@@ -34,7 +34,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release: 5.9%{?extra_version:.%{extra_version}}%{?dist}
+Release:        5.9%{?extra_version:.%{extra_version}}.1%{?dist}
 License: BSD
 Url: https://www.unbound.net/
 Source: https://www.unbound.net/downloads/%{name}-%{version}%{?extra_version}.tar.gz
@@ -76,6 +76,30 @@ Patch5: unbound-1.21-CVE-2024-8508.patch
 # https://github.com/NLnetLabs/unbound/commit/5bf82f246481098a6473f296b21fc1229d276c0f
 # https://github.com/NLnetLabs/unbound/commit/a1150078f29e14b36c8e4d9d05a263a5e6abbc5b
 Patch6: unbound-1.23.1-CVE-2025-5994.patch
+# CVE-2026-42959 — upstream backport
+Patch7: unbound-1.16.2-cve-2026-42959.patch
+# CVE-2026-42944 — upstream backport
+Patch8: unbound-1.16.2-cve-2026-42944.patch
+# CVE-2026-32792 — upstream backport
+Patch9: unbound-1.16.2-cve-2026-32792.patch
+# CVE-2026-40622 — upstream backport
+Patch10: unbound-1.16.2-cve-2026-40622.patch
+# CVE-2026-41292 — upstream backport
+Patch11: unbound-1.16.2-cve-2026-41292.patch
+# CVE-2026-42534 — upstream backport
+Patch12: unbound-1.16.2-cve-2026-42534.patch
+# CVE-2026-42923 — upstream backport
+Patch13: unbound-1.16.2-cve-2026-42923.patch
+# CVE-2026-42960 — upstream backport
+Patch14: unbound-1.16.2-cve-2026-42960.patch
+# CVE-2026-44390 — upstream backport
+Patch15: unbound-1.16.2-cve-2026-44390.patch
+# CVE-2026-44608 — upstream backport
+Patch16: unbound-1.16.2-cve-2026-44608.patch
+# CVE-2024-43167 — upstream backport
+Patch17: unbound-1.16.2-cve-2024-43167.patch
+# CVE-2024-43168 — upstream backport
+Patch18: unbound-1.16.2-cve-2024-43168.patch
 
 BuildRequires: gdb
 BuildRequires: gcc, make
@@ -181,6 +205,18 @@ pushd %{pkgname}
 %patch4 -p2 -b .CVE-2023-50387-CVE-2023-50868
 %patch5 -p2 -b .CVE-2024-8508
 %patch6 -p2 -b .CVE-2025-5994
+%patch7 -p2 -b .cve-2026-42959
+%patch8 -p2 -b .cve-2026-42944
+%patch9 -p2 -b .cve-2026-32792
+%patch10 -p2 -b .cve-2026-40622
+%patch11 -p2 -b .cve-2026-41292
+%patch12 -p2 -b .cve-2026-42534
+%patch13 -p2 -b .cve-2026-42923
+%patch14 -p2 -b .cve-2026-42960
+%patch15 -p2 -b .cve-2026-44390
+%patch16 -p2 -b .cve-2026-44608
+%patch17 -p2 -b .cve-2024-43167
+%patch18 -p2 -b .cve-2024-43168
 
 
 # copy common doc files - after here, since it may be patched
@@ -448,6 +484,20 @@ popd
 %verify(not md5 size mtime) %{_sharedstatedir}/%{name}/root.key
 
 %changelog
+* Wed May 20 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-5.9.1
+- Fix CVE-2026-42959
+- Fix CVE-2026-42944
+- Fix CVE-2026-32792
+- Fix CVE-2026-40622
+- Fix CVE-2026-41292
+- Fix CVE-2026-42534
+- Fix CVE-2026-42923
+- Fix CVE-2026-42960
+- Fix CVE-2026-44390
+- Fix CVE-2026-44608
+- Fix CVE-2024-43167
+- Fix CVE-2024-43168
+
 * Thu Jul 24 2025 Tomas Korbar <tkorbar@redhat.com> - 1.16.2-5.9
 - Fix RebirthDay Attack (CVE-2025-5994)
 - Resolves: RHEL-104123
