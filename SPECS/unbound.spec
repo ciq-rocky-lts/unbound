@@ -15,7 +15,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.6.6
-Release: 5.1%{?dist}
+Release: 5.2%{?dist}
 License: BSD
 Url: https://unbound.net/
 Source: https://www.unbound.net/downloads/%{name}-%{version}.tar.gz
@@ -48,6 +48,10 @@ Patch8: unbound-1.6.6-amplifying-an-incoming-query.patch
 
 Patch9: unbound-1.6.6-CVE-2023-50387-DNSSEC-verification-complexity-ca.patch
 Patch10: unbound-1.6.6-CVE-2023-50868-NSEC3-closest-encloser-proof-can-.patch
+# CVE-2026-42959 — upstream backport
+Patch11: unbound-1.6.6-CVE-2026-42959.patch
+# CVE-2026-42534 — upstream backport
+Patch12: unbound-1.6.6-CVE-2026-42534.patch
 
 Group: System Environment/Daemons
 BuildRequires: openssl-devel
@@ -150,6 +154,8 @@ Python modules and extensions for unbound
 %patch6 -p1 -b .domain-insecure
 %patch7 -p1 -b .rh1775706
 %patch8 -p1 -b .amplifying-an-incoming-query
+%patch11 -p1 -b .CVE-2026-42959
+%patch12 -p1 -b .CVE-2026-42534
 
 # regrnerate config parser due to new options added
 echo "#include \"config.h\"" > util/configlexer.c || echo "Failed to create configlexer"
@@ -361,6 +367,10 @@ fi
 %endif
 
 %changelog
+* Mon Aug 17 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.6.6-5.2
+- Fix CVE-2026-42959
+- Fix CVE-2026-42534
+
 * Wed Feb 12 2024 Matt Hink <mhink@ciq.com> - 1.6.6-5.1
 - Fix CVE-2023-50387 and CVE-2023-50868
 
