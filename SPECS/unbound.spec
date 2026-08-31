@@ -15,7 +15,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.6.6
-Release: 5.2%{?dist}
+Release: 5.3%{?dist}
 License: BSD
 Url: https://unbound.net/
 Source: https://www.unbound.net/downloads/%{name}-%{version}.tar.gz
@@ -154,6 +154,8 @@ Python modules and extensions for unbound
 %patch6 -p1 -b .domain-insecure
 %patch7 -p1 -b .rh1775706
 %patch8 -p1 -b .amplifying-an-incoming-query
+%patch9 -p1 -b .CVE-2023-50387
+%patch10 -p1 -b .CVE-2023-50868
 %patch11 -p1 -b .CVE-2026-42959
 %patch12 -p1 -b .CVE-2026-42534
 
@@ -367,6 +369,9 @@ fi
 %endif
 
 %changelog
+* Thu Aug 27 2026 Andrew Jorgensen <ajorgens@ciq.com> - 1.6.6-5.3
+- Fix CVE-2023-50387 and CVE-2023-50868 (not applied in 1.6.6-5.1)
+
 * Mon Aug 17 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.6.6-5.2
 - Fix CVE-2026-42959
 - Fix CVE-2026-42534
