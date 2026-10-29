@@ -30,7 +30,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release:        3%{?extra_version:.%{extra_version}}.1%{?dist}.5
+Release:        3%{?extra_version:.%{extra_version}}.2%{?dist}.5
 License: BSD
 Url: https://nlnetlabs.nl/projects/unbound/
 Source: https://nlnetlabs.nl/downloads/%{name}/%{name}-%{version}%{?extra_version}.tar.gz
@@ -86,6 +86,8 @@ Patch14: unbound-1.16.2-cve-2026-42960.patch
 Patch15: unbound-1.16.2-cve-2026-44390.patch
 # CVE-2026-44608 — upstream backport
 Patch16: unbound-1.16.2-cve-2026-44608.patch
+# CVE-2026-44690 - adapted from Rocky Linux: https://git.rockylinux.org/staging/rpms/unbound/-/raw/9973f761c38e70678620c73cea2fe17a74904265/SOURCES/unbound-1.25.2-CVE-2026-44690.patch (the changed lines differ from the source's; see the patch)
+Patch17: unbound-CVE-2026-44690-adapted.patch
 
 BuildRequires: gcc, make
 BuildRequires: flex, openssl-devel
@@ -481,6 +483,9 @@ popd
 %attr(0644,root,root) %config %{_sysconfdir}/%{name}/root.key
 
 %changelog
+* Wed Oct 28 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-3.2.5
+- Fix CVE-2026-44690
+
 * Wed May 20 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-3.1
 - Fix CVE-2024-8508
 - Fix CVE-2025-5994
