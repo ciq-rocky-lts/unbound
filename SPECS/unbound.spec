@@ -34,7 +34,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release:        5.9%{?extra_version:.%{extra_version}}.1%{?dist}
+Release:        5.9%{?extra_version:.%{extra_version}}.2%{?dist}
 License: BSD
 Url: https://www.unbound.net/
 Source: https://www.unbound.net/downloads/%{name}-%{version}%{?extra_version}.tar.gz
@@ -100,6 +100,8 @@ Patch16: unbound-1.16.2-cve-2026-44608.patch
 Patch17: unbound-1.16.2-cve-2024-43167.patch
 # CVE-2024-43168 — upstream backport
 Patch18: unbound-1.16.2-cve-2024-43168.patch
+# CVE-2026-81642 - verbatim from Rocky Linux: https://git.rockylinux.org/staging/rpms/unbound/-/raw/9973f761c38e70678620c73cea2fe17a74904265/SOURCES/unbound-1.26.1-CVE-2026-81642.patch
+Patch19: unbound-1.16.2-CVE-2026-81642.patch
 
 BuildRequires: gdb
 BuildRequires: gcc, make
@@ -217,6 +219,7 @@ pushd %{pkgname}
 %patch16 -p2 -b .cve-2026-44608
 %patch17 -p2 -b .cve-2024-43167
 %patch18 -p2 -b .cve-2024-43168
+%patch19 -p2 -b .CVE-2026-81642
 
 
 # copy common doc files - after here, since it may be patched
@@ -484,6 +487,9 @@ popd
 %verify(not md5 size mtime) %{_sharedstatedir}/%{name}/root.key
 
 %changelog
+* Thu Oct 29 2026 Jeff Uphoff <juphoff@ciq.com> - 1.16.2-5.9.2
+- Fix CVE-2026-81642
+
 * Wed May 20 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-5.9.1
 - Fix CVE-2026-42959
 - Fix CVE-2026-42944
