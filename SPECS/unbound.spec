@@ -30,7 +30,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release:        19%{?extra_version:.%{extra_version}}.1%{?dist}.1
+Release:        19%{?extra_version:.%{extra_version}}.3%{?dist}.1
 License: BSD
 Url: https://nlnetlabs.nl/projects/unbound/
 Source: https://nlnetlabs.nl/downloads/%{name}/%{name}-%{version}%{?extra_version}.tar.gz
@@ -100,6 +100,11 @@ Patch17: unbound-1.16.2-cve-2026-44608.patch
 Patch18: unbound-1.16.2-cve-2024-43167.patch
 # CVE-2024-43168 — upstream backport
 Patch19: unbound-1.16.2-cve-2024-43168.patch
+Patch20: unbound-1.16.2-CVE-2026-44690.patch
+# CVE-2026-81634 -- patch body from the amazon backport for unbound 1.17.1, paths re-rooted for this spec's %%autopatch -p2: https://al2023-repos-us-east-1-de612dc2.s3.dualstack.us-east-1.amazonaws.com/blobstore/7e81fead46fb6bdb23034e3c9a2e8ca15e56478afa27757c2ef6a8528e9180ce/unbound-1.17.1-1.amzn2023.0.17.src.rpm
+Patch21: unbound-1.16.2-CVE-2026-81634.patch
+# CVE-2026-81642 -- patch body from the amazon backport for unbound 1.17.1 (upstream fix 8c2e0fd6cc5b6eaa618ac72227808824b4edee7c + its regression test), paths re-rooted for this spec's %%autopatch -p2: https://al2023-repos-us-east-1-de612dc2.s3.dualstack.us-east-1.amazonaws.com/blobstore/7e81fead46fb6bdb23034e3c9a2e8ca15e56478afa27757c2ef6a8528e9180ce/unbound-1.17.1-1.amzn2023.0.17.src.rpm
+Patch22: unbound-1.16.2-CVE-2026-81642.patch
 
 BuildRequires: gcc, make
 BuildRequires: flex, openssl-devel
@@ -531,6 +536,13 @@ popd
 %{_prefix}/lib/dracut/modules.d/99unbound
 
 %changelog
+* Fri Oct 30 2026 pmp <packaging@ciq.com> - 1.16.2-19.3.1
+- Fix CVE-2026-81634
+- Fix CVE-2026-81642
+
+* Mon Sep 21 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-19.2.1
+- Fix CVE-2026-44690
+
 * Wed May 20 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-19.1
 - Fix CVE-2026-42959
 - Fix CVE-2026-42944
