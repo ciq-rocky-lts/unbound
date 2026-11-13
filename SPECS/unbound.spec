@@ -30,7 +30,7 @@
 Summary: Validating, recursive, and caching DNS(SEC) resolver
 Name: unbound
 Version: 1.16.2
-Release:        3%{?extra_version:.%{extra_version}}.2%{?dist}.5
+Release:        3%{?extra_version:.%{extra_version}}.3%{?dist}.5
 License: BSD
 Url: https://nlnetlabs.nl/projects/unbound/
 Source: https://nlnetlabs.nl/downloads/%{name}/%{name}-%{version}%{?extra_version}.tar.gz
@@ -88,6 +88,8 @@ Patch15: unbound-1.16.2-cve-2026-44390.patch
 Patch16: unbound-1.16.2-cve-2026-44608.patch
 # CVE-2026-44690 - adapted from Rocky Linux: https://git.rockylinux.org/staging/rpms/unbound/-/raw/9973f761c38e70678620c73cea2fe17a74904265/SOURCES/unbound-1.25.2-CVE-2026-44690.patch (the changed lines differ from the source's; see the patch)
 Patch17: unbound-CVE-2026-44690-adapted.patch
+# CVE-2026-81642 - upstream fix https://github.com/NLnetLabs/unbound/commit/8c2e0fd6cc5b6eaa618ac72227808824b4edee7c plus its unit test https://github.com/NLnetLabs/unbound/commit/3a6ba0da81536020dc2244f6da6d6a9d60d4e063 (lines unchanged; regenerated against 1.16.2, paths rooted at unbound-1.16.2/ for -p2)
+Patch18: unbound-1.16.2-CVE-2026-81642.patch
 
 BuildRequires: gcc, make
 BuildRequires: flex, openssl-devel
@@ -211,7 +213,29 @@ Python 3 modules and extensions for unbound
 
 pushd %{pkgname}
 # patches go here
-%autopatch -p2
+# Apply every patch explicitly at strip level 2, the same convention as the
+# lts86-8 spec. An explicit per-patch apply line keeps the strip level
+# machine-readable for the deterministic T0 apply probe, which cannot see
+# the strip level of the batch autopatch invocation. The prep result is
+# identical: every patch still applies at strip level 2 in the same order.
+%patch1 -p2
+%patch2 -p2
+%patch3 -p2
+%patch4 -p2
+%patch5 -p2
+%patch6 -p2
+%patch7 -p2
+%patch8 -p2
+%patch9 -p2
+%patch10 -p2
+%patch11 -p2
+%patch12 -p2
+%patch13 -p2
+%patch14 -p2
+%patch15 -p2
+%patch16 -p2
+%patch17 -p2
+%patch18 -p2
 
 # only for snapshots
 autoreconf -iv
@@ -483,6 +507,9 @@ popd
 %attr(0644,root,root) %config %{_sysconfdir}/%{name}/root.key
 
 %changelog
+* Fri Nov 06 2026 pmp <packager@ciq.com> - 1.16.2-3.3.5
+- Fix CVE-2026-81642
+
 * Wed Oct 28 2026 Jason Rodriguez <jrodriguez@ciq.com> - 1.16.2-3.2.5
 - Fix CVE-2026-44690
 
